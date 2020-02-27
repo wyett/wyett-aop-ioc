@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
@@ -90,7 +91,7 @@ public class DispatcherServlet extends HttpServlet {
                     String key = requestMapping.value();
 
                     // save (key, instance) into iocMap
-                    beans.put(key, instance)
+                    beans.put(key, instance);
                 } else if (clazz.isAnnotationPresent(WyettService.class)){
                     Object instance = clazz.newInstance();
                     // get key
@@ -197,7 +198,15 @@ public class DispatcherServlet extends HttpServlet {
         // beans.get("/wyett")
         Object instance = beans.get("/" +path.split("/")[1]);
 
-        method.invoke()
+        Object args[] = hand(request, response, method);
+
+        try {
+            method.invoke(instance, args);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
 
     }
