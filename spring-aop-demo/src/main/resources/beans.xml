@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+
+    <bean id = "calculator" class="com.wyett.springaop.Calculator">
+    </bean>
+    <bean id = "logAspects" class = "com.wyett.springaop.aspects.LogAspects">
+    </bean>
+
+    <aop:config>
+        <aop:aspect ref="logAspects">
+            <!--当前拦截对象目标方法返回类型 包名.类名(方法) -->
+            <aop:pointcut id="log" expression="execution(* *.*(..))"/>
+            <aop:before method="logStart" pointcut-ref="log" />
+            <aop:after method="logEnd" pointcut-ref="log" />
+            <aop:after-returning method="logReturn" pointcut-ref="log" returning="result" />
+            <aop:after-throwing method="logException" pointcut-ref="log" throwing="exception" />
+        </aop:aspect>
+    </aop:config>
+
+</beans>

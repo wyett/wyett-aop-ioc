@@ -52,7 +52,7 @@ public class DispatcherServlet extends HttpServlet {
      * @param basePackage root package
      */
     public void scanPackage(String basePackage) {
-        URL url = this.getClass().getClassLoader().getResource("/" + basePackage.replace("\\.", "/"));
+        URL url = this.getClass().getClassLoader().getResource("/" + basePackage.replaceAll("\\.", "/"));
         String fileStr = url.getFile();
         File file = new File(fileStr);
 
