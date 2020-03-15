@@ -1,5 +1,7 @@
 package com.wyett.spring;
 
+//import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSON;
 import org.aopalliance.aop.Advice;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.util.FileUtil;
@@ -153,7 +155,7 @@ public class DefaultSpringPluginFactory implements ApplicationContextAware {
     public Collection<PluginConfig> flushConfigs() throws IOException {
         File configFile = new File(configPath);
         String configJson = FileUtil.readAsString(configFile);
-        Plugins pluginConfigs = JSON.parsObject(configJson, Plugins.class);
+        Plugins pluginConfigs = JSON.parseObject(configJson, Plugins.class);
 
         for (PluginConfig pluginConfig : pluginConfigs.getConfigs()) {
             if (configs.get(pluginConfig.getId()) == null) {
